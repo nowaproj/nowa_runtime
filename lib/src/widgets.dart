@@ -53,3 +53,54 @@ class CustomButton extends StatelessWidget {
     );
   }
 }
+
+class StateWidget extends StatefulWidget {
+  final dynamic state;
+  final void Function()? initState;
+  final void Function()? dispose;
+  final Widget Function(BuildContext context, dynamic state, void Function(Function() fn) setState) builder;
+
+  const StateWidget({
+    required this.builder,
+    this.state,
+    this.initState,
+    this.dispose,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  _StateWidgetState createState() => _StateWidgetState();
+}
+
+class _StateWidgetState extends State<StateWidget> {
+  @override
+  void initState() {
+    super.initState();
+
+    widget.initState?.call();
+  }
+
+  @override
+  void dispose() {
+    widget.dispose?.call();
+
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return widget.builder(context, widget.state, setState);
+  }
+}
+
+class Switchable extends StatelessWidget {
+  final bool flag;
+  final Widget? ifTrue;
+  final Widget? ifFalse;
+  const Switchable({this.flag = false, this.ifTrue, this.ifFalse, Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return flag ? ifTrue ?? Container() : ifFalse ?? Container();
+  }
+}
