@@ -1,6 +1,6 @@
 name: nowa_runtime
-description: A new Flutter package project.
-version: 0.0.1
+description: Common functions and widgets for nowa apps
+version: 0.0.5
 homepage: https://nowa.dev
 
 environment:
@@ -10,6 +10,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
+  url_launcher: ^6.0.20
+  http: ^0.13.4
 
 dev_dependencies:
   flutter_test:
