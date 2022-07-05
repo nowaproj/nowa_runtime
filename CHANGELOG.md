@@ -1,3 +1,6 @@
-## 0.0.1
+## 0.0.6
+* Added Nowa annotations
 
-* TODO: Describe initial release.
+
+## 0.0.1
+* Widgets and functions specific to Nowa
