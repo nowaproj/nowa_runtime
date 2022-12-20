@@ -105,20 +105,20 @@ class Switchable extends StatelessWidget {
   }
 }
 
-class DataBuilder extends StatelessWidget {
-  final Future? future;
-  final Widget Function(BuildContext, dynamic)? builder;
+class DataBuilder<T> extends StatelessWidget {
+  final Future<T>? future;
+  final Widget Function(BuildContext, T)? builder;
   final Widget? loadingWidget;
   final Widget Function(BuildContext, dynamic)? errorBuilder;
   const DataBuilder({Key? key, this.future, this.builder, this.loadingWidget, this.errorBuilder}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
+    return FutureBuilder<T>(
       future: future,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return builder?.call(context, snapshot.data) ?? const SizedBox();
+          return builder?.call(context, snapshot.data!) ?? const SizedBox();
         }
         if (snapshot.hasError) {
           return errorBuilder?.call(context, snapshot.error) ?? const SizedBox();
