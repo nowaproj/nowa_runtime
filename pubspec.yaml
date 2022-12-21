@@ -1,6 +1,6 @@
 name: nowa_runtime
 description: Common functions and widgets for nowa apps
-version: 0.0.6
+version: 0.0.7
 homepage: https://nowa.dev
 
 environment:
