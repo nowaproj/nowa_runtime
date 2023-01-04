@@ -1,40 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
-class CustomContainer extends StatelessWidget {
-  final EdgeInsets? padding;
-  final double? width;
-  final double? height;
-  final Color? color;
-  final Border? border;
-  final double? borderRadius;
-  final Widget? child;
-  const CustomContainer({
-    this.padding,
-    this.width,
-    this.height,
-    this.color,
-    this.border,
-    this.borderRadius,
-    this.child,
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      clipBehavior: Clip.antiAlias,
-      padding: padding,
-      width: width,
-      height: height,
-      decoration: BoxDecoration(
-        color: color,
-        border: border,
-        borderRadius: borderRadius != null ? BorderRadius.circular(borderRadius!) : null,
-      ),
-      child: child,
-    );
-  }
-}
 
 class CustomButton extends StatelessWidget {
   final void Function()? onPressed;
@@ -51,57 +16,6 @@ class CustomButton extends StatelessWidget {
       child: child,
       style: color == null ? null : ButtonStyle(backgroundColor: MaterialStateProperty.all(color)),
     );
-  }
-}
-
-class StateWidget extends StatefulWidget {
-  final dynamic state;
-  final void Function()? initState;
-  final void Function()? dispose;
-  final Widget Function(BuildContext context, dynamic state, void Function(Function() fn) setState) builder;
-
-  const StateWidget({
-    required this.builder,
-    this.state,
-    this.initState,
-    this.dispose,
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  _StateWidgetState createState() => _StateWidgetState();
-}
-
-class _StateWidgetState extends State<StateWidget> {
-  @override
-  void initState() {
-    super.initState();
-
-    widget.initState?.call();
-  }
-
-  @override
-  void dispose() {
-    widget.dispose?.call();
-
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return widget.builder(context, widget.state, setState);
-  }
-}
-
-class Switchable extends StatelessWidget {
-  final bool flag;
-  final Widget? ifTrue;
-  final Widget? ifFalse;
-  const Switchable({this.flag = false, this.ifTrue, this.ifFalse, Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return flag ? ifTrue ?? Container() : ifFalse ?? Container();
   }
 }
 
@@ -127,5 +41,42 @@ class DataBuilder<T> extends StatelessWidget {
         return loadingWidget ?? const SizedBox();
       },
     );
+  }
+}
+
+class FirebaseBuilder<T> extends StatelessWidget {
+  final bool updateAutomatic;
+  final Query<T>? query;
+  final Widget Function(BuildContext, List<T>)? builder;
+  final Widget Function(BuildContext)? onLoadingBuilder;
+  final Widget Function(BuildContext, Object? error)? onErrorBuilder;
+
+  const FirebaseBuilder({
+    super.key,
+    this.query,
+    this.updateAutomatic = true,
+    this.builder,
+    this.onLoadingBuilder,
+    this.onErrorBuilder,
+  });
+
+  Widget _buildSnapshot(BuildContext context, AsyncSnapshot<QuerySnapshot<T>> snapshot) {
+    if (snapshot.hasData) {
+      return builder?.call(context, snapshot.data!.docs.map<T>((e) => e.data()).toList()) ?? Container();
+    }
+    if (snapshot.hasError) {
+      return onErrorBuilder?.call(context, snapshot.error) ?? Container();
+    }
+    return onLoadingBuilder?.call(context) ?? Container();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (query == null) {
+      return onErrorBuilder?.call(context, Exception("Query not found")) ?? Container();
+    }
+    return updateAutomatic
+        ? StreamBuilder<QuerySnapshot<T>>(stream: query!.snapshots(), builder: _buildSnapshot)
+        : FutureBuilder<QuerySnapshot<T>>(future: query!.get(), builder: _buildSnapshot);
   }
 }

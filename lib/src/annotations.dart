@@ -5,8 +5,9 @@
 
 class NowaVar {
   final String? name;
+  final String? loader;
 
-  const NowaVar({this.name});
+  const NowaVar({this.name, this.loader});
 }
 
 class NowaFunc {
@@ -18,6 +19,7 @@ class NowaFunc {
 
 class NowaClass {
   final String? name;
+  final String? loader;
 
-  const NowaClass({this.name});
+  const NowaClass({this.name, this.loader});
 }
