@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {
@@ -13,8 +12,8 @@ class CustomButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressed,
       onLongPress: onLongPress,
-      child: child,
       style: color == null ? null : ButtonStyle(backgroundColor: MaterialStateProperty.all(color)),
+      child: child,
     );
   }
 }
@@ -44,39 +43,25 @@ class DataBuilder<T> extends StatelessWidget {
   }
 }
 
-class FirebaseBuilder<T> extends StatelessWidget {
-  final bool updateAutomatic;
-  final Query<T>? query;
-  final Widget Function(BuildContext, List<T>)? builder;
-  final Widget Function(BuildContext)? onLoadingBuilder;
-  final Widget Function(BuildContext, Object? error)? onErrorBuilder;
+class FlexSizedBox extends StatelessWidget {
+  final Widget child;
+  final double? width, height;
+  final int? flex;
 
-  const FirebaseBuilder({
-    super.key,
-    this.query,
-    this.updateAutomatic = true,
-    this.builder,
-    this.onLoadingBuilder,
-    this.onErrorBuilder,
-  });
-
-  Widget _buildSnapshot(BuildContext context, AsyncSnapshot<QuerySnapshot<T>> snapshot) {
-    if (snapshot.hasData) {
-      return builder?.call(context, snapshot.data!.docs.map<T>((e) => e.data()).toList()) ?? Container();
-    }
-    if (snapshot.hasError) {
-      return onErrorBuilder?.call(context, snapshot.error) ?? Container();
-    }
-    return onLoadingBuilder?.call(context) ?? Container();
-  }
+  const FlexSizedBox({required this.child, this.width, this.height, this.flex, super.key});
 
   @override
   Widget build(BuildContext context) {
-    if (query == null) {
-      return onErrorBuilder?.call(context, Exception("Query not found")) ?? Container();
+    final widget = SizedBox(width: width, height: height, child: child);
+
+    if (flex != null) {
+      return Flexible(
+        flex: flex!,
+        fit: FlexFit.tight,
+        child: widget,
+      );
     }
-    return updateAutomatic
-        ? StreamBuilder<QuerySnapshot<T>>(stream: query!.snapshots(), builder: _buildSnapshot)
-        : FutureBuilder<QuerySnapshot<T>>(future: query!.get(), builder: _buildSnapshot);
+
+    return widget;
   }
 }

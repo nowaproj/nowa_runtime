@@ -11,7 +11,7 @@ void back(BuildContext context) {
 }
 
 void openUrl(String url) {
-  launch(url);
+  launchUrl(Uri.parse(url));
 }
 
 Future<Response> httpGet({required String url, Map<String, String>? headers}) {

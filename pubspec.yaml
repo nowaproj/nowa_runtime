@@ -1,6 +1,6 @@
 name: nowa_runtime
 description: Common functions and widgets for nowa apps
-version: 0.0.7
+version: 0.0.12
 homepage: https://nowa.dev
 
 environment:
@@ -13,13 +13,11 @@ dependencies:
 
   url_launcher: ^6.0.20
   http: ^0.13.4
-  # firebase_core: ^1.24.0
-  cloud_firestore: ^3.5.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^1.0.0
+  flutter_lints: ^2.0.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
