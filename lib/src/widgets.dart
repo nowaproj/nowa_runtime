@@ -104,13 +104,26 @@ class NFlex extends StatelessWidget {
     }
   }
 
+  bool get _shouldInterperse {
+    switch (mainAxisAlignment) {
+      case MainAxisAlignment.start:
+      case MainAxisAlignment.end:
+      case MainAxisAlignment.center:
+        return spacing > 0;
+      case MainAxisAlignment.spaceBetween:
+      case MainAxisAlignment.spaceAround:
+      case MainAxisAlignment.spaceEvenly:
+        return false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     List<Widget> effectiveChildren;
-    if (spacing <= 0) {
-      effectiveChildren = children;
-    } else {
+    if (_shouldInterperse) {
       effectiveChildren = _interperse(children, SizedBox(width: spacing, height: spacing)).toList();
+    } else {
+      effectiveChildren = children;
     }
 
     return Flex(
