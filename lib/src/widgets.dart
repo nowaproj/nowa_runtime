@@ -23,7 +23,7 @@ class DataBuilder<T> extends StatelessWidget {
   final Widget Function(BuildContext, T)? builder;
   final Widget? loadingWidget;
   final Widget Function(BuildContext, dynamic)? errorBuilder;
-  const DataBuilder({Key? key, this.future, this.builder, this.loadingWidget, this.errorBuilder}) : super(key: key);
+  const DataBuilder({super.key, this.future, this.builder, this.loadingWidget, this.errorBuilder});
 
   @override
   Widget build(BuildContext context) {
@@ -63,5 +63,66 @@ class FlexSizedBox extends StatelessWidget {
     }
 
     return widget;
+  }
+}
+
+/// A flex widget that includes spacing
+class NFlex extends StatelessWidget {
+  final Axis direction;
+  final MainAxisAlignment mainAxisAlignment;
+  final CrossAxisAlignment crossAxisAlignment;
+  final MainAxisSize mainAxisSize;
+  final TextDirection? textDirection;
+  final VerticalDirection verticalDirection;
+  final TextBaseline? textBaseline;
+  final Clip clipBehavior;
+  final List<Widget> children;
+
+  final double spacing;
+
+  const NFlex({
+    super.key,
+    required this.direction,
+    this.mainAxisAlignment = MainAxisAlignment.start,
+    this.mainAxisSize = MainAxisSize.max,
+    this.crossAxisAlignment = CrossAxisAlignment.center,
+    this.textDirection,
+    this.verticalDirection = VerticalDirection.down,
+    this.textBaseline, // NO DEFAULT: we don't know what the text's baseline should be
+    this.clipBehavior = Clip.none,
+    this.spacing = 0.0,
+    this.children = const <Widget>[],
+  });
+
+  Iterable<T> _interperse<T>(Iterable<T> iterable, T separator) sync* {
+    final iterator = iterable.iterator;
+    if (!iterator.moveNext()) return;
+    yield iterator.current;
+    while (iterator.moveNext()) {
+      yield separator;
+      yield iterator.current;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    List<Widget> effectiveChildren;
+    if (spacing <= 0) {
+      effectiveChildren = children;
+    } else {
+      effectiveChildren = _interperse(children, SizedBox(width: spacing, height: spacing)).toList();
+    }
+
+    return Flex(
+      direction: direction,
+      crossAxisAlignment: crossAxisAlignment,
+      mainAxisAlignment: mainAxisAlignment,
+      mainAxisSize: mainAxisSize,
+      textBaseline: textBaseline,
+      textDirection: textDirection,
+      verticalDirection: verticalDirection,
+      clipBehavior: clipBehavior,
+      children: effectiveChildren,
+    );
   }
 }
