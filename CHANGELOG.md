@@ -1,3 +1,6 @@
+## 0.0.18
+* Adding web view widget
+
 ## 0.0.6
 * Added Nowa annotations
 
