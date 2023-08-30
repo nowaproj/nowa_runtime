@@ -1,3 +1,6 @@
+## 0.0.20
+* Adding markdown widget
+
 ## 0.0.18
 * Adding web view widget
 
