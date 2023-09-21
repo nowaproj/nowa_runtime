@@ -20,18 +20,51 @@ class CustomButton extends StatelessWidget {
 
 class DataBuilder<T> extends StatelessWidget {
   final Future<T>? future;
+  final Stream<T>? stream;
   final Widget Function(BuildContext, T)? builder;
   final Widget? loadingWidget;
   final Widget Function(BuildContext, dynamic)? errorBuilder;
-  const DataBuilder({super.key, this.future, this.builder, this.loadingWidget, this.errorBuilder});
+
+  const DataBuilder({
+    super.key,
+    this.future,
+    this.stream,
+    this.builder,
+    this.loadingWidget,
+    this.errorBuilder,
+  });
 
   @override
   Widget build(BuildContext context) {
+    if (future == null && stream == null) {
+      return errorBuilder?.call(context, 'No data source provided') ?? const SizedBox();
+    }
+
+    if (future != null && stream != null) {
+      return errorBuilder?.call(context, 'Only one data source can be provided') ?? const SizedBox();
+    }
+
+    if (stream != null) {
+      return StreamBuilder<T>(
+        stream: stream,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return builder?.call(context, snapshot.data as T) ?? const SizedBox();
+          }
+          if (snapshot.hasError) {
+            return errorBuilder?.call(context, snapshot.error) ?? const SizedBox();
+          }
+
+          return loadingWidget ?? const SizedBox();
+        },
+      );
+    }
+
     return FutureBuilder<T>(
       future: future,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return builder?.call(context, snapshot.data!) ?? const SizedBox();
+          return builder?.call(context, snapshot.data as T) ?? const SizedBox();
         }
         if (snapshot.hasError) {
           return errorBuilder?.call(context, snapshot.error) ?? const SizedBox();
