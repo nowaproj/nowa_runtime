@@ -1,3 +1,6 @@
+## 0.0.22
+* Adding nowa http client
+
 ## 0.0.21
 * Adding support for streams in the data builder
 
