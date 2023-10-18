@@ -1,6 +1,6 @@
 name: nowa_runtime
 description: Common functions and widgets for nowa apps
-version: 0.0.21
+version: 0.0.22
 homepage: https://nowa.dev
 
 environment:
@@ -14,15 +14,8 @@ dependencies:
   url_launcher: ^6.1.14
   webview_universal: ^0.0.5
   markdown_widget: ^2.3.1
-  build: ^2.4.1
-  built_collection: ^5.1.1
-  code_builder: ^4.7.0
-  dart_style: ^2.2.4
   dio: ^5.3.3
-  retrofit: ^4.0.3
-  source_gen: ^1.4.0
-  tuple: ^2.0.2
-  protobuf: ^3.1.0
+  http: ^0.13.4
 
 dev_dependencies:
   flutter_test:

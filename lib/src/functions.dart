@@ -14,10 +14,7 @@ void openUrl(String url) {
   launchUrl(Uri.parse(url));
 }
 
+@Deprecated('Use nowa client instead')
 Future<Response> httpGet({required String url, Map<String, String>? headers}) {
   return get(Uri.parse(url), headers: headers);
-}
-
-Future<Response> httpPost({required String url, Map<String, String>? headers}) {
-  return post(Uri.parse(url), headers: headers);
 }
