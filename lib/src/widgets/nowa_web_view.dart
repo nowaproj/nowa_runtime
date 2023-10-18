@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:webview_universal/webview_universal.dart';
 
 class NowaWebView extends StatefulWidget {
-  final String url;
   const NowaWebView({required this.url, super.key});
+
+  final String url;
 
   @override
   State<NowaWebView> createState() => _NowaWebViewState();
@@ -51,8 +52,9 @@ class _NowaWebViewState extends State<NowaWebView> {
 }
 
 class WebViewPlaceholder extends StatelessWidget {
-  final String text;
   const WebViewPlaceholder({required this.text, super.key});
+
+  final String text;
 
   @override
   Widget build(BuildContext context) {
@@ -104,28 +106,54 @@ class WebViewPlaceholder extends StatelessWidget {
                       const SizedBox(height: 32),
                       Row(
                         children: [
-                          Expanded(child: Container(height: 224, color: boxColor)),
+                          Expanded(
+                            child: Container(height: 224, color: boxColor),
+                          ),
                           const SizedBox(width: 32),
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
-                                Container(height: 24, width: 200, color: boxColor),
+                                Container(
+                                  height: 24,
+                                  width: 200,
+                                  color: boxColor,
+                                ),
                                 const SizedBox(height: 16),
-                                Container(height: 24, width: 200, color: boxColor),
+                                Container(
+                                  height: 24,
+                                  width: 200,
+                                  color: boxColor,
+                                ),
                                 const SizedBox(height: 16),
-                                Container(height: 24, width: 200, color: boxColor),
+                                Container(
+                                  height: 24,
+                                  width: 200,
+                                  color: boxColor,
+                                ),
                                 const SizedBox(height: 16),
-                                Container(height: 24, width: 200, color: boxColor),
+                                Container(
+                                  height: 24,
+                                  width: 200,
+                                  color: boxColor,
+                                ),
                                 const SizedBox(height: 16),
-                                Container(height: 24, width: 200, color: boxColor),
+                                Container(
+                                  height: 24,
+                                  width: 200,
+                                  color: boxColor,
+                                ),
                                 const SizedBox(height: 16),
-                                Container(height: 24, width: 200, color: boxColor),
+                                Container(
+                                  height: 24,
+                                  width: 200,
+                                  color: boxColor,
+                                ),
                               ],
                             ),
                           ),
                         ],
-                      )
+                      ),
                     ],
                   ),
                 ),
@@ -144,7 +172,7 @@ class WebViewPlaceholder extends StatelessWidget {
                 ),
               ),
             ),
-          )
+          ),
         ],
       ),
     );
