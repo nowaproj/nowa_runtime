@@ -6,3 +6,4 @@ export 'src/widgets/markdown.dart';
 export 'src/functions.dart';
 export 'src/annotations.dart';
 export 'src/nowa_client/nowa_client.dart';
+export 'package:lottie/lottie.dart';
