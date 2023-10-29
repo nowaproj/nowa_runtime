@@ -1,5 +1,4 @@
-import 'package:dio/dio.dart' as dio;
-import 'package:nowa_runtime/src/nowa_client/model/response.dart';
+import 'package:dio/dio.dart';
 
 class NowaClient {
   NowaClient({
@@ -8,8 +7,8 @@ class NowaClient {
     this.connectTimeout,
     this.receiveTimeout,
     this.sendTimeout,
-  }) : _dioClient = dio.Dio(
-          dio.BaseOptions(
+  }) : _dioClient = Dio(
+          BaseOptions(
             baseUrl: baseUrl,
             headers: headers,
             connectTimeout: connectTimeout,
@@ -23,23 +22,27 @@ class NowaClient {
   final Duration? connectTimeout;
   final Duration? receiveTimeout;
   final Duration? sendTimeout;
-  final dio.Dio _dioClient;
+  final Dio _dioClient;
 
   Future<Response> get({
     required String url,
     Map<String, String> headers = const {},
     dynamic body,
   }) async {
-    final dio.Response response = await _dioClient.get(
-      url,
-      options: dio.Options(headers: headers),
-      data: body,
-    );
-    return Response(
-      statusCode: response.statusCode!,
-      data: response.data,
-      headers: response.headers.map,
-    );
+    try {
+      final Response response = await _dioClient.get(
+        url,
+        options: Options(headers: headers),
+        data: body,
+      );
+      return response;
+    } on DioException catch (e) {
+      final Response? response = e.response;
+      if (response != null) {
+        return response;
+      }
+      rethrow;
+    }
   }
 
   Future<Response> post({
@@ -47,16 +50,20 @@ class NowaClient {
     Map<String, String> headers = const {},
     dynamic body,
   }) async {
-    final dio.Response response = await _dioClient.post(
-      url,
-      options: dio.Options(headers: headers),
-      data: body,
-    );
-    return Response(
-      statusCode: response.statusCode!,
-      data: response.data,
-      headers: response.headers.map,
-    );
+    try {
+      final Response response = await _dioClient.post(
+        url,
+        options: Options(headers: headers),
+        data: body,
+      );
+      return response;
+    } on DioException catch (e) {
+      final Response? response = e.response;
+      if (response != null) {
+        return response;
+      }
+      rethrow;
+    }
   }
 
   Future<Response> put({
@@ -64,16 +71,20 @@ class NowaClient {
     Map<String, String> headers = const {},
     dynamic body,
   }) async {
-    final dio.Response response = await _dioClient.put(
-      url,
-      options: dio.Options(headers: headers),
-      data: body,
-    );
-    return Response(
-      statusCode: response.statusCode!,
-      data: response.data,
-      headers: response.headers.map,
-    );
+    try {
+      final Response response = await _dioClient.put(
+        url,
+        options: Options(headers: headers),
+        data: body,
+      );
+      return response;
+    } on DioException catch (e) {
+      final Response? response = e.response;
+      if (response != null) {
+        return response;
+      }
+      rethrow;
+    }
   }
 
   Future<Response> delete({
@@ -81,16 +92,20 @@ class NowaClient {
     Map<String, String> headers = const {},
     dynamic body,
   }) async {
-    final dio.Response response = await _dioClient.delete(
-      url,
-      options: dio.Options(headers: headers),
-      data: body,
-    );
-    return Response(
-      statusCode: response.statusCode!,
-      data: response.data,
-      headers: response.headers.map,
-    );
+    try {
+      final Response response = await _dioClient.delete(
+        url,
+        options: Options(headers: headers),
+        data: body,
+      );
+      return response;
+    } on DioException catch (e) {
+      final Response? response = e.response;
+      if (response != null) {
+        return response;
+      }
+      rethrow;
+    }
   }
 
   Future<Response> patch({
@@ -98,16 +113,20 @@ class NowaClient {
     Map<String, String> headers = const {},
     dynamic body,
   }) async {
-    final dio.Response response = await _dioClient.patch(
-      url,
-      options: dio.Options(headers: headers),
-      data: body,
-    );
-    return Response(
-      statusCode: response.statusCode!,
-      data: response.data,
-      headers: response.headers.map,
-    );
+    try {
+      final Response response = await _dioClient.patch(
+        url,
+        options: Options(headers: headers),
+        data: body,
+      );
+      return response;
+    } on DioException catch (e) {
+      final Response? response = e.response;
+      if (response != null) {
+        return response;
+      }
+      rethrow;
+    }
   }
 
   Future<Response> head({
@@ -115,35 +134,20 @@ class NowaClient {
     Map<String, String> headers = const {},
     dynamic body,
   }) async {
-    final dio.Response response = await _dioClient.head(
-      url,
-      options: dio.Options(headers: headers),
-      data: body,
-    );
-    return Response(
-      statusCode: response.statusCode!,
-      data: response.data,
-      headers: response.headers.map,
-    );
-  }
+    try {
+      final Response response = await _dioClient.head(
+        url,
+        options: Options(headers: headers),
+        data: body,
 
-  Future<Response> options({
-    required String url,
-    Map<String, String> headers = const {},
-    dynamic body,
-  }) async {
-    final dio.Response response = await _dioClient.request(
-      url,
-      options: dio.Options(
-        headers: headers,
-        method: 'OPTIONS',
-      ),
-      data: body,
-    );
-    return Response(
-      statusCode: response.statusCode!,
-      data: response.data,
-      headers: response.headers.map,
-    );
+      );
+      return response;
+    } on DioException catch (e) {
+      final Response? response = e.response;
+      if (response != null) {
+        return response;
+      }
+      rethrow;
+    }
   }
 }
