@@ -1,3 +1,6 @@
+## 0.0.24
+* Handling http client exceptions
+
 ## 0.0.23
 * Adding lottie widget
 
